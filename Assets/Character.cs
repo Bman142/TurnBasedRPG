@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace RPG
 {
@@ -11,12 +12,12 @@ namespace RPG
     {
 
         //Base Stats
-        [SerializeField]  public int m_Initiative;
-        [SerializeField]  int m_Health;
-        [SerializeField]  int m_MagicPoints;
-        [SerializeField]  int m_Defense;
-        [SerializeField] int m_Attack;
-        [SerializeField] string m_Name;
+        [SerializeField] protected int m_Initiative;
+        [SerializeField] protected int m_Health;
+        [SerializeField] protected int m_MagicPoints;
+        [SerializeField] protected int m_Defense;
+        [SerializeField] protected int m_Attack;
+        [SerializeField] protected string m_Name;
 
         //TODO: Integrate into targeting system
         public Character m_Target;
@@ -26,10 +27,10 @@ namespace RPG
 
         [SerializeField] Action m_QueuedAction;
 
-        [SerializeField] TMP_Text playerHealth;
+        
 
         //Public getters and Setters
-        public int Initiative { get { return m_Initiative; } }
+        public int Initiative { get { return m_Initiative; } set { m_Initiative = value; } }
         public int Health { get { return m_Health; } }
         public int MagicPoint { get { return m_MagicPoints; } }
         public int Defense { get { return m_Defense; } }
@@ -71,10 +72,7 @@ namespace RPG
             m_QueuedAction.TargetMod = m_Weapon.Modifications[0].m_Modification;
         }
 
-        private void Update()
-        {
-            playerHealth.text = m_Health.ToString();
-        }
+        
 
     }
     /// <summary>

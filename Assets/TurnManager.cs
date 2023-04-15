@@ -11,6 +11,8 @@ namespace RPG {
         [SerializeField] List<Character> m_Characters = new List<Character>();
         [SerializeField] List<Character> m_PlayerCharacters = new List<Character>();
         [SerializeField] List<Character> m_EnemyCharacters = new List<Character>();
+        [SerializeField] GameObject m_PlayerHealthPrefab;
+        [SerializeField] List<RectTransform> m_HealthLocations;
         
         public List<Character> PlayerCharacters { get { return m_PlayerCharacters; } }
         public List<Character> EnemyCharacters { get { return m_EnemyCharacters; } }
@@ -18,6 +20,21 @@ namespace RPG {
         private void OnEnable()
         {
             ClearLists();
+            GetCharacters();
+            SeperatePlayerAndEnemy();
+            CalculateInitaitve();
+
+            
+        }
+
+        private void Start()
+        {
+            for (int i = 0; i < m_PlayerCharacters.Count; i++)
+            {
+                GameObject tmp = Instantiate(m_PlayerHealthPrefab, m_HealthLocations[i]);
+                Player tmp2 = (Player)m_PlayerCharacters[i];
+                tmp2.SetTextAndSlider(tmp);
+            }
         }
         /// <summary>
         /// Sort the list of Characters in order of Highest Initative to Lowest
@@ -59,7 +76,7 @@ namespace RPG {
         {
             foreach(Character character in m_Characters)
             {
-                character.m_Initiative = Random.Range(0, 10);
+                character.Initiative = Random.Range(0, 10);
             }
         }
         /// <summary>
@@ -70,6 +87,7 @@ namespace RPG {
             m_Characters.Remove(m_CurrentCharacter);
             m_Characters.Add(m_CurrentCharacter);
             m_CurrentCharacter = m_Characters[0];
+            
         }
 
         /// <summary>
@@ -78,6 +96,10 @@ namespace RPG {
         public void ExecuteCurrentTurn()
         {
             m_CurrentCharacter.ExecuteAction();
+        }
+
+        private void Update()
+        {
         }
     }
 }
