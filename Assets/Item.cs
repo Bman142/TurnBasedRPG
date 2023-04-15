@@ -17,7 +17,9 @@ namespace RPG
         public List<StatMods> Modifications { get { return m_Modifications; } }
         public string Description { get { return m_Description; } }
     }
-
+    /// <summary>
+    /// Class to contain the effects of an item
+    /// </summary>
     [Serializable]
     public class StatMods
     {

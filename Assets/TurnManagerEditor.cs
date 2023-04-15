@@ -38,6 +38,10 @@ namespace RPG
             {
                 turnManager.NextTurn();
             }
+            else if(GUILayout.Button("Execute Current Turn"))
+            {
+                turnManager.ExecuteCurrentTurn();
+            }
 
             DrawDefaultInspector();
         }
