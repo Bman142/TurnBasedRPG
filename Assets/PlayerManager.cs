@@ -9,7 +9,9 @@ namespace RPG
     {
         static PlayerManager m_Instance;
 
-        List<Item> m_Inventory;
+        public GameObject InventoryCanvas;
+
+        [SerializeField] List<Item> m_Inventory;
 
         List<Player> m_Players;
 
