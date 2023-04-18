@@ -23,7 +23,6 @@ namespace RPG
         public Character m_Target;
 
         [SerializeField] Weapon m_Weapon;
-        [SerializeField] List<Item> inventory = new List<Item>();
 
         [SerializeField] Action m_QueuedAction;
 

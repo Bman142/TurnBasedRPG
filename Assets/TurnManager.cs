@@ -57,7 +57,7 @@ namespace RPG {
         /// </summary>
         public void GetCharacters()
         {
-            m_Characters.AddRange(FindObjectsOfType<Character>().ToList());
+            m_Characters.AddRange(PlayerManager.Instance.Players);
         }
         /// <summary>
         /// Clear All Lists

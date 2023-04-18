@@ -9,11 +9,12 @@ namespace RPG
     public enum stats { Health, Defense, Magic}
     public class Item : MonoBehaviour
     {
-
+        [SerializeField] string m_Name;
         [SerializeField] List<StatMods> m_Modifications;
 
         [SerializeField, Multiline] string m_Description;
         
+        public string Name { get { return m_Name; } }
         public List<StatMods> Modifications { get { return m_Modifications; } }
         public string Description { get { return m_Description; } }
     }
