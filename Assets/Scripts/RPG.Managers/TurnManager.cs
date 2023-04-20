@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using RPG.Characters;
 
-namespace RPG {
+namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
     {
 

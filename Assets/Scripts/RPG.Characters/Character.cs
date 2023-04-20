@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using RPG.Items;
 
-namespace RPG
+namespace RPG.Characters
 {
     
     public class Character : MonoBehaviour
@@ -17,7 +18,7 @@ namespace RPG
         [SerializeField] protected int m_MagicPoints;
         [SerializeField] protected int m_Defense;
         [SerializeField] protected int m_Attack;
-        [SerializeField] protected string m_Name;
+        [SerializeField] protected string m_CharacterName;
 
         //TODO: Integrate into targeting system
         public Character m_Target;
@@ -34,7 +35,7 @@ namespace RPG
         public int MagicPoint { get { return m_MagicPoints; } }
         public int Defense { get { return m_Defense; } }
         public int Attack { get { return m_Attack; } }
-        public string Name { get { return m_Name; } set { m_Name = value; } }
+        public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
         public Weapon Weapon { get => m_Weapon; set => m_Weapon = value; }
 
         public void ExecuteAction()

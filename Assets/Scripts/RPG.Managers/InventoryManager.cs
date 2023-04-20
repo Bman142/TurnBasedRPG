@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using RPG.Items;
 
-namespace RPG
+namespace RPG.Managers
 {
     public class InventoryManager : MonoBehaviour
     {
@@ -33,6 +34,8 @@ namespace RPG
             {
                 Destroy(@object);
             }
+
+            InstansiatedItems = new List<GameObject>();
         }
     }
 }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using RPG.Characters;
+using RPG.Managers;
 
 namespace RPG
 {

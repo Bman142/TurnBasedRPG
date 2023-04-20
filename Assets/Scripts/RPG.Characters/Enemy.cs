@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-namespace RPG
+namespace RPG.Characters
 {
-    public class Weapon : Item
+
+    public class Enemy : Character
     {
         
     }

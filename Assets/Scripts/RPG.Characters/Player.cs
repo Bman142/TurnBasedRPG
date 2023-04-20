@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RPG
+namespace RPG.Characters
 {
     public class Player : Character
     {
@@ -39,7 +39,7 @@ namespace RPG
         private void Update()
         {
             
-            playerHealth.text = m_Name + ": " + m_Health.ToString();
+            playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
             playerHealthSlider.value = m_Health;
             playerMagicSlider.value = m_MagicPoints;
         }

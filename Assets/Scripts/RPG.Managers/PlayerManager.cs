@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Items;
+using RPG.Characters;
 
-namespace RPG
+namespace RPG.Managers
 {
 
     public class PlayerManager : MonoBehaviour
@@ -13,7 +15,7 @@ namespace RPG
 
         [SerializeField] List<Item> m_Inventory;
 
-        List<Player> m_Players;
+        List<Player> m_Players = new List<Player>();
 
         public static PlayerManager Instance { get { return m_Instance; } }
         public List<Item> Inventroy { get { return m_Inventory; } }

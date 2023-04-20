@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace RPG
+namespace RPG.Items
 {
     public enum stats { Health, Defense, Magic}
     public class Item : MonoBehaviour

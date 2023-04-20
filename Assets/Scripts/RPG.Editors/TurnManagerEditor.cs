@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using RPG.Managers;
 
-namespace RPG
+namespace RPG.Editors
 {
 #if UNITY_EDITOR
     [CustomEditor(typeof(TurnManager))]

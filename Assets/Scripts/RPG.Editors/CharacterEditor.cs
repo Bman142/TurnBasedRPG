@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using RPG.Characters;
 
-namespace RPG
+namespace RPG.Editors
 {
     [CustomEditor(typeof(Player))]
     public class PlayerEditor : Editor
