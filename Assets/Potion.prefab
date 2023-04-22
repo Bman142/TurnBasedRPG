@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6c0b819daff1c468b554a35821ed56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Name: Mana Potion
+  m_ItemName: Mana Potion
   m_Modifications:
   - m_Stat: 2
     m_Modification: 5

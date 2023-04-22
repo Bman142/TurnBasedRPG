@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab29ca56d09f6e4697f1440cb299993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Name: Iron Sword
+  m_ItemName: Sword
   m_Modifications:
   - m_Stat: 0
     m_Modification: 1

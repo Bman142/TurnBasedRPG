@@ -15,7 +15,7 @@ namespace RPG.Managers
 
         [SerializeField] List<Item> m_Inventory;
 
-        List<Player> m_Players = new List<Player>();
+        List<Player> m_Players = new();
 
         public static PlayerManager Instance { get { return m_Instance; } }
         public List<Item> Inventroy { get { return m_Inventory; } }

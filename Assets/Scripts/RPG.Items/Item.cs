@@ -10,7 +10,7 @@ namespace RPG.Items
     public enum stats { Health, Defense, Magic}
     public class Item : MonoBehaviour
     {
-        [SerializeField] string m_Name;
+        [SerializeField] string m_ItemName;
         [SerializeField] List<StatMods> m_Modifications;
         [SerializeField] GameObject m_Prefab;
 
@@ -18,19 +18,19 @@ namespace RPG.Items
 
         [SerializeField, Multiline] string m_Description;
         
-        public string Name { get { return m_Name; } }
+        public string Name { get { return m_ItemName; } }
         public List<StatMods> Modifications { get { return m_Modifications; } }
         public string Description { get { return m_Description; } }
         public GameObject Prefab { get { return m_Prefab; } }
 
         private void OnEnable()
         {
-            m_NameTextBox.text = m_Name;
+            m_NameTextBox.text = m_ItemName;
         }
 
         public void LogDebug()
         {
-            Debug.Log("You Selected: " + m_Name);
+            Debug.Log("You Selected: " + m_ItemName);
         }
 
     }
