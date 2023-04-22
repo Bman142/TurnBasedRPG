@@ -17,11 +17,7 @@ namespace RPG.Editors
             TurnManager turnManager = (TurnManager)target;
             if (GUILayout.Button("Find Characters"))
             {
-                turnManager.GetCharacters();
-            }
-            else if (GUILayout.Button("Seperate Player and Enemy"))
-            {
-                turnManager.SeperatePlayerAndEnemy();
+                turnManager.GetPlayers();
             }
             else if (GUILayout.Button("Calc Init"))
             {

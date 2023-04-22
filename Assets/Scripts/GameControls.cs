@@ -31,6 +31,14 @@ namespace RPG
 
         void TurnBased()
         {
+            PlayerManager.Instance.CurrentScene = Scene.Battle;
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                //player.GetComponent<SpriteRenderer>().enabled = false;
+                player.Camaera.gameObject.SetActive(false);
+                
+            }
+            
             SceneManager.LoadScene(0);
         }
         private void Update()
@@ -41,27 +49,29 @@ namespace RPG
                 return; 
             }
             Vector2 keyboardInput = inputActions.Player.Move.ReadValue<Vector2>();
+            if (PlayerManager.Instance.CurrentScene == Scene.Overworld)
+            {
+                if (keyboardInput.x > 0)
+                {
+                    this.transform.position += (this.transform.right * m_Speed * Time.deltaTime);
+                    m_Animator.SetInteger("Direction", 2);
+                }
+                else if (keyboardInput.x < 0)
+                {
+                    this.transform.position -= (this.transform.right * m_Speed * Time.deltaTime);
+                    m_Animator.SetInteger("Direction", 3);
+                }
 
-            if(keyboardInput.x > 0)
-            {
-                this.transform.position += (this.transform.right * m_Speed * Time.deltaTime);
-                m_Animator.SetInteger("Direction", 2);
-            }
-            else if (keyboardInput.x < 0)
-            {
-                this.transform.position -= (this.transform.right * m_Speed * Time.deltaTime);
-                m_Animator.SetInteger("Direction", 3);
-            }
-
-            if (keyboardInput.y > 0)
-            {
-                this.transform.position += (this.transform.up * m_Speed * Time.deltaTime);
-                m_Animator.SetInteger("Direction", 1);
-            }
-            else if (keyboardInput.y < 0)
-            {
-                this.transform.position -= (this.transform.up * m_Speed * Time.deltaTime);
-                m_Animator.SetInteger("Direction", 0);
+                if (keyboardInput.y > 0)
+                {
+                    this.transform.position += (this.transform.up * m_Speed * Time.deltaTime);
+                    m_Animator.SetInteger("Direction", 1);
+                }
+                else if (keyboardInput.y < 0)
+                {
+                    this.transform.position -= (this.transform.up * m_Speed * Time.deltaTime);
+                    m_Animator.SetInteger("Direction", 0);
+                }
             }
         }
 

@@ -6,6 +6,7 @@ using RPG.Characters;
 
 namespace RPG.Managers
 {
+    
 
     public class PlayerManager : MonoBehaviour
     {
@@ -15,7 +16,11 @@ namespace RPG.Managers
 
         [SerializeField] List<Item> m_Inventory;
 
-        List<Player> m_Players = new();
+        [SerializeField] List<Player> m_Players = new();
+
+        Scene m_CurrentScene;
+
+        public Scene CurrentScene { get { return m_CurrentScene; } set { m_CurrentScene = value; } }
 
         public static PlayerManager Instance { get { return m_Instance; } }
         public List<Item> Inventroy { get { return m_Inventory; } }
@@ -44,9 +49,9 @@ namespace RPG.Managers
             DontDestroyOnLoad(this.gameObject);
         }
 
-        private void OnEnable()
+        public void AddPlayer(Player player)
         {
-            m_Players.AddRange(FindObjectsOfType<Player>());
+            m_Players.Add(player);
         }
     }
 }

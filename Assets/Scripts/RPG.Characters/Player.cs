@@ -1,3 +1,4 @@
+using RPG.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,19 @@ namespace RPG.Characters
         [SerializeField] Slider playerHealthSlider;
         Slider playerMagicSlider;
 
+        Camera m_Camera;
+
+        public Camera Camaera { get { return m_Camera; } }
+
+
+        private void Start()
+        {
+            m_Camera = this.GetComponentInChildren<Camera>();
+            Debug.Log("Player Awake");
+            PlayerManager.Instance.AddPlayer(this);
+
+            DontDestroyOnLoad(this);
+        }
         public void SetTextAndSlider(GameObject obj)
         {
             playerHealth = obj.GetComponentInChildren<TMP_Text>();
@@ -38,10 +52,18 @@ namespace RPG.Characters
 
         private void Update()
         {
-            
-            playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
-            playerHealthSlider.value = m_Health;
-            playerMagicSlider.value = m_MagicPoints;
+            if (PlayerManager.Instance.CurrentScene == Scene.Battle)
+            {
+                //Battle Scene
+                playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
+                playerHealthSlider.value = m_Health;
+                playerMagicSlider.value = m_MagicPoints;
+            }
+            else if (PlayerManager.Instance.CurrentScene == Scene.Overworld)
+            {
+                //Overworld
+
+            }
         }
     }
 }

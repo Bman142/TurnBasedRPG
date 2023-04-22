@@ -3,32 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using RPG.Characters;
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.EventSystems;
 
 namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
     {
+        [SerializeField] Button TopOfMenu;
 
         [SerializeField] Character m_CurrentCharacter;
+
+        //Character Lists
+        [Header("Character Lists")]
         [SerializeField] List<Character> m_Characters = new List<Character>();
         [SerializeField] List<Character> m_PlayerCharacters = new List<Character>();
         [SerializeField] List<Character> m_EnemyCharacters = new List<Character>();
+
+
         [SerializeField] GameObject m_PlayerHealthPrefab;
+        [SerializeField] GameObject m_EnemyPrefab;
+        [SerializeField] Button m_ButtonPrefab;
+
+        //Item Instanstiation Location Lists
+        [Header("Item Spawn Location Lists")]
         [SerializeField] List<RectTransform> m_HealthLocations;
-        
+        [SerializeField] List<RectTransform> m_AttackLocations;
+        [SerializeField] List<Transform> m_PlayerSpawns;
+        [SerializeField] List<Transform> m_EnemySpawns;
+
         public List<Character> PlayerCharacters { get { return m_PlayerCharacters; } }
         public List<Character> EnemyCharacters { get { return m_EnemyCharacters; } }
 
-        private void OnEnable()
+        List<GameObject> TemporaryButtons = new();
+
+        private void Awake()
         {
             ClearLists();
-            GetCharacters();
-            SeperatePlayerAndEnemy();
-            CalculateInitaitve();
-
+            GetPlayers();
             
+            InstansiateEnemies();
+
+            m_Characters.AddRange(m_PlayerCharacters);
+            m_Characters.AddRange(m_EnemyCharacters);
+
+            CalculateInitaitve();
+            EstablishHealthBars();
+            InstantiatePlayers();
+            
+
         }
 
-        private void Start()
+        void EstablishHealthBars()
         {
             for (int i = 0; i < m_PlayerCharacters.Count; i++)
             {
@@ -46,20 +73,38 @@ namespace RPG.Managers {
             m_CurrentCharacter = m_Characters[0];
         }
         /// <summary>
-        /// Filter Enemy and Player characters into seperate lists for targeting
-        /// </summary>
-        public void SeperatePlayerAndEnemy()
-        {
-            m_PlayerCharacters = m_Characters.OfType<Player>().ToList<Character>();
-            m_EnemyCharacters = m_Characters.OfType<Enemy>().ToList<Character>();
-        }
-        /// <summary>
         /// Find All Characters in the scene
         /// </summary>
-        public void GetCharacters()
+        public void GetPlayers()
         {
-            m_Characters.AddRange(PlayerManager.Instance.Players);
+            m_PlayerCharacters.AddRange(PlayerManager.Instance.Players);
+
         }
+
+        public void GetEnemies()
+        {
+            m_EnemyCharacters.AddRange(FindObjectsOfType<Enemy>().ToList<Enemy>());
+        }
+
+        public void InstantiatePlayers()
+        {
+            for (int i = 0; i < m_PlayerCharacters.Count; i++)
+            {
+                m_PlayerCharacters[i].transform.position = m_PlayerSpawns[i].transform.position;
+            }
+        }
+
+        public void InstansiateEnemies()
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                GameObject NewEnemy = Instantiate(m_EnemyPrefab, m_EnemySpawns[i]);
+                m_EnemyCharacters.Add(NewEnemy.GetComponent<Enemy>());
+                NewEnemy.GetComponent<Enemy>().Name = "Enemy " + (i + 1).ToString();
+            }
+
+        }
+
         /// <summary>
         /// Clear All Lists
         /// </summary>
@@ -75,7 +120,7 @@ namespace RPG.Managers {
         /// </summary>
         public void RandomInit()
         {
-            foreach(Character character in m_Characters)
+            foreach (Character character in m_Characters)
             {
                 character.Initiative = Random.Range(0, 10);
             }
@@ -88,8 +133,24 @@ namespace RPG.Managers {
             m_Characters.Remove(m_CurrentCharacter);
             m_Characters.Add(m_CurrentCharacter);
             m_CurrentCharacter = m_Characters[0];
-            
+
         }
+
+        public void SetCurrentTarget(string TargetName)
+        {
+            //Debug.LogError("");
+            //Debug.Log("Button " + this.name + " Pressed, Target Number " + TargetName.ToString());
+            Character Target = m_Characters.Find(x => x.Name == TargetName);
+            //Debug.Log("Target Set: " + Target.Name);
+            m_CurrentCharacter.SetTarget(Target, m_CurrentCharacter.Weapon.Modifications[0].m_Stat, m_CurrentCharacter.Weapon.Modifications[0].m_Modification);
+            foreach(GameObject item in TemporaryButtons)
+            {
+                Destroy(item);
+            }
+            TemporaryButtons = new();
+            FindObjectOfType<EventSystem>().SetSelectedGameObject(TopOfMenu.gameObject);
+        }
+
 
         /// <summary>
         /// Execute the queued action of the current character
@@ -99,8 +160,16 @@ namespace RPG.Managers {
             m_CurrentCharacter.ExecuteAction();
         }
 
-        private void Update()
+        public void Attacking()
         {
+            for (int i = 0; i < m_EnemyCharacters.Count; i++)
+            {
+                GameObject NewButton = Instantiate(m_ButtonPrefab.gameObject, m_AttackLocations[i]);
+                NewButton.name = m_EnemyCharacters[i].Name;
+                NewButton.GetComponentInChildren<TMP_Text>().text = m_EnemyCharacters[i].Name;
+                NewButton.GetComponent<Button>().onClick.AddListener(delegate { SetCurrentTarget(NewButton.name); }) ;
+                TemporaryButtons.Add(NewButton);
+            }
         }
-    }
+    } 
 }

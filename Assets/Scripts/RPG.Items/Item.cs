@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 namespace RPG.Items
 {
-    public enum stats { Health, Defense, Magic}
+    
     public class Item : MonoBehaviour
     {
         [SerializeField] string m_ItemName;

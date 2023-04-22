@@ -20,8 +20,9 @@ namespace RPG.Characters
         [SerializeField] protected int m_Attack;
         [SerializeField] protected string m_CharacterName;
 
+        [SerializeField] protected Sprite m_Sprite;
+
         //TODO: Integrate into targeting system
-        public Character m_Target;
 
         [SerializeField] Weapon m_Weapon;
 
@@ -37,11 +38,31 @@ namespace RPG.Characters
         public int Attack { get { return m_Attack; } }
         public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
         public Weapon Weapon { get => m_Weapon; set => m_Weapon = value; }
+        public Sprite Sprite { get => m_Sprite; }
+        
+        public Character ReturnCharacter()
+        {
+            return this;
+        }
+
+        private void Start()
+        {
+            if (this.GetComponent<SpriteRenderer>())
+            {
+                m_Sprite = this.GetComponent<SpriteRenderer>().sprite;
+            }
+        }
 
         public void ExecuteAction()
         {
             m_QueuedAction.Target.TakeDamage(m_QueuedAction.TargetStat, m_QueuedAction.TargetMod);
         }
+
+        public void SetTarget(Character target, stats stat, int mod)
+        {
+            m_QueuedAction = new Action(target, stat, mod);
+        }
+
 
 
         /// <summary>
@@ -88,6 +109,13 @@ namespace RPG.Characters
         public Character Target { get { return m_Target; } set { m_Target = value; } }
         public stats TargetStat { get { return m_TargetEffect; } set { m_TargetEffect = value; } }
         public int TargetMod { get { return m_TargetMod; } set { m_TargetMod = value; } }
+
+        public Action(Character target, stats targetEffect, int targetMod)
+        {
+            m_Target = target;
+            m_TargetEffect = targetEffect;
+            m_TargetMod = targetMod;
+        }
     }
 
     

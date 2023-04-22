@@ -13,10 +13,10 @@ namespace RPG.Editors
         {
             Character character = (Character)target;
 
-            if(GUILayout.Button("Queue Action"))
-            {
-                character.QueueAction(character.m_Target);
-            }
+            //if(GUILayout.Button("Queue Action"))
+            //{
+            //    character.QueueAction(character.m_Target);
+            //}
 
             DrawDefaultInspector();
 
@@ -28,12 +28,12 @@ namespace RPG.Editors
     {
         public override void OnInspectorGUI()
         {
-            Character character = (Character)target;
+            //Character character = (Character)target;
 
-            if (GUILayout.Button("Queue Action"))
-            {
-                character.QueueAction(character.m_Target);
-            }
+            //if (GUILayout.Button("Queue Action"))
+            //{
+            //    character.QueueAction(character.m_Target);
+            //}
 
             DrawDefaultInspector();
 
