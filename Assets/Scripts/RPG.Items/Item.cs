@@ -38,12 +38,12 @@ namespace RPG.Items
     /// Class to contain the effects of an item
     /// </summary>
     [Serializable]
-    public class StatMods
+    public struct StatMods
     {
-        public stats m_Stat;
+        public Stats m_Stat;
         public int m_Modification;
 
-        public StatMods(stats stat, int mod)
+        public StatMods(Stats stat, int mod)
         {
             m_Modification = mod;
             m_Stat = stat;

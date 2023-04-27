@@ -50,7 +50,7 @@ namespace RPG.Characters
             }
         }
 
-        private void Update()
+        public void UpdateHealthSliders()
         {
             if (PlayerManager.Instance.CurrentScene == Scene.Battle)
             {
@@ -64,6 +64,12 @@ namespace RPG.Characters
                 //Overworld
 
             }
+        }
+
+
+        private void Update()
+        {
+            
         }
     }
 }

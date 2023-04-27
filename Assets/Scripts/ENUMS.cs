@@ -7,5 +7,5 @@ namespace RPG
 
     public enum Scene { Overworld, Battle }
 
-    public enum stats { Health, Defense, Magic }
+    public enum Stats { Health, Defense, Magic }
 }

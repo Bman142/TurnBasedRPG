@@ -5,6 +5,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using RPG.Items;
+using System.Xml.Schema;
+using Unity.VisualScripting;
 
 namespace RPG.Characters
 {
@@ -55,12 +57,10 @@ namespace RPG.Characters
 
         public void ExecuteAction()
         {
-            m_QueuedAction.Target.TakeDamage(m_QueuedAction.TargetStat, m_QueuedAction.TargetMod);
-        }
-
-        public void SetTarget(Character target, stats stat, int mod)
-        {
-            m_QueuedAction = new Action(target, stat, mod);
+            for (int i = 0; i < m_QueuedAction.StatMods.Count; i++)
+            {
+                m_QueuedAction.Target.TakeDamage(m_QueuedAction.StatMods[i].m_Stat, m_QueuedAction.StatMods[i].m_Modification);
+            }
         }
 
 
@@ -70,11 +70,11 @@ namespace RPG.Characters
         /// </summary>
         /// <param name="stat">The Stat to be affected</param>
         /// <param name="mod">The amount to modify the specified stat</param>
-        public void TakeDamage(stats stat, int mod)
+        public void TakeDamage(Stats stat, int mod)
         {
             switch (stat)
             {
-                case stats.Health:
+                case Stats.Health:
                     m_Health -= mod;
                     break;
             }
@@ -86,13 +86,25 @@ namespace RPG.Characters
         /// <param name="target">Target of the Action</param>
 
         //TODO: Integrate into targeting system
-        public void QueueAction(Character target)
+        public void QueueAction(Character target, List<StatMods> statMods)
         {
             m_QueuedAction.Target = target;
-            m_QueuedAction.TargetStat = m_Weapon.Modifications[0].m_Stat;
-            m_QueuedAction.TargetMod = m_Weapon.Modifications[0].m_Modification;
+            m_QueuedAction.StatMods = statMods;
         }
-
+        public bool ValidateHealth()
+        {
+            if(m_Health < 0) { m_Health = 0; }
+            if(m_Health == 0)
+            {
+                //Kill Character
+                this.GetComponent<SpriteRenderer>().enabled = false;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         
 
     }
@@ -100,21 +112,18 @@ namespace RPG.Characters
     /// Class to contain all information for an action
     /// </summary>
     [Serializable]
-    public class Action
+    public struct Action
     {
         [SerializeField] Character m_Target;
-        [SerializeField] stats m_TargetEffect;
-        [SerializeField] int m_TargetMod;
+        [SerializeField] List<StatMods> m_StatMods;
 
         public Character Target { get { return m_Target; } set { m_Target = value; } }
-        public stats TargetStat { get { return m_TargetEffect; } set { m_TargetEffect = value; } }
-        public int TargetMod { get { return m_TargetMod; } set { m_TargetMod = value; } }
+        public List<StatMods> StatMods { get => m_StatMods; set => m_StatMods = value; }
 
-        public Action(Character target, stats targetEffect, int targetMod)
+        public Action(Character target, List<StatMods> statMods)
         {
             m_Target = target;
-            m_TargetEffect = targetEffect;
-            m_TargetMod = targetMod;
+            m_StatMods = statMods;
         }
     }
 

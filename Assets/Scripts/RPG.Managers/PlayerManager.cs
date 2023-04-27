@@ -53,5 +53,13 @@ namespace RPG.Managers
         {
             m_Players.Add(player);
         }
+
+        public void StartPlayerCoroutine(string MethodName)
+        {
+            foreach(Player player in m_Players)
+            {
+                player.InvokeRepeating(MethodName, 0.1f,0.1f);
+            }
+        }
     }
 }

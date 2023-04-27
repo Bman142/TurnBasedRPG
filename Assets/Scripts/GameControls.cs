@@ -32,6 +32,7 @@ namespace RPG
         void TurnBased()
         {
             PlayerManager.Instance.CurrentScene = Scene.Battle;
+            PlayerManager.Instance.StartPlayerCoroutine("UpdateHealthSliders");
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 //player.GetComponent<SpriteRenderer>().enabled = false;

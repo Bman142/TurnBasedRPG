@@ -17,9 +17,9 @@ namespace RPG.Managers {
 
         //Character Lists
         [Header("Character Lists")]
-        [SerializeField] List<Character> m_Characters = new List<Character>();
-        [SerializeField] List<Character> m_PlayerCharacters = new List<Character>();
-        [SerializeField] List<Character> m_EnemyCharacters = new List<Character>();
+        [SerializeField] List<Character> m_Characters = new();
+        [SerializeField] List<Character> m_PlayerCharacters = new();
+        [SerializeField] List<Character> m_EnemyCharacters = new();
 
 
         [SerializeField] GameObject m_PlayerHealthPrefab;
@@ -130,9 +130,25 @@ namespace RPG.Managers {
         /// </summary>
         public void NextTurn()
         {
+
             m_Characters.Remove(m_CurrentCharacter);
             m_Characters.Add(m_CurrentCharacter);
+            foreach (Character character in m_Characters)
+            {
+                if (character.ValidateHealth())
+                {
+                    m_Characters.Remove(character);
+                }
+            }
             m_CurrentCharacter = m_Characters[0];
+
+            
+
+            foreach(Player player in m_PlayerCharacters)
+            {
+                player.UpdateHealthSliders();
+            }
+            
 
         }
 
@@ -141,8 +157,8 @@ namespace RPG.Managers {
             //Debug.LogError("");
             //Debug.Log("Button " + this.name + " Pressed, Target Number " + TargetName.ToString());
             Character Target = m_Characters.Find(x => x.Name == TargetName);
-            //Debug.Log("Target Set: " + Target.Name);
-            m_CurrentCharacter.SetTarget(Target, m_CurrentCharacter.Weapon.Modifications[0].m_Stat, m_CurrentCharacter.Weapon.Modifications[0].m_Modification);
+            Debug.Log("Target Set: " + Target.Name);
+            m_CurrentCharacter.QueueAction(Target, m_CurrentCharacter.Weapon.Modifications);
             foreach(GameObject item in TemporaryButtons)
             {
                 Destroy(item);
