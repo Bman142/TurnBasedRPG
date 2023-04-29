@@ -24,23 +24,8 @@ namespace RPG
             inputActions.Enable();
 
             inputActions.Player.OpenInventory.performed += _ => OpenInventory();
-            inputActions.Player.Battle.performed += _ => TurnBased();
 
             if(m_Animator == null) { m_Animator = this.GetComponent<Animator>(); }
-        }
-
-        void TurnBased()
-        {
-            PlayerManager.Instance.CurrentScene = Scene.Battle;
-            PlayerManager.Instance.StartPlayerCoroutine("UpdateHealthSliders");
-            foreach (Player player in PlayerManager.Instance.Players)
-            {
-                //player.GetComponent<SpriteRenderer>().enabled = false;
-                player.Camaera.gameObject.SetActive(false);
-                
-            }
-            
-            SceneManager.LoadScene(0);
         }
         private void Update()
         {
@@ -54,29 +39,34 @@ namespace RPG
             {
                 if (keyboardInput.x > 0)
                 {
-                    this.transform.position += (this.transform.right * m_Speed * Time.deltaTime);
+                    transform.position += m_Speed * Time.deltaTime * transform.right;
                     m_Animator.SetInteger("Direction", 2);
                 }
                 else if (keyboardInput.x < 0)
                 {
-                    this.transform.position -= (this.transform.right * m_Speed * Time.deltaTime);
+                    transform.position -= m_Speed * Time.deltaTime * transform.right;
                     m_Animator.SetInteger("Direction", 3);
                 }
 
                 if (keyboardInput.y > 0)
                 {
-                    this.transform.position += (this.transform.up * m_Speed * Time.deltaTime);
+                    transform.position += m_Speed * Time.deltaTime * transform.up;
                     m_Animator.SetInteger("Direction", 1);
                 }
                 else if (keyboardInput.y < 0)
                 {
-                    this.transform.position -= (this.transform.up * m_Speed * Time.deltaTime);
+                    transform.position -= m_Speed * Time.deltaTime * transform.up;
                     m_Animator.SetInteger("Direction", 0);
                 }
             }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log(this.gameObject.name + " Collided with " + collision.gameObject.name);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             Debug.Log(this.gameObject.name + " Collided with " + collision.gameObject.name);
         }
