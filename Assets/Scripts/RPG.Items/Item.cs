@@ -48,5 +48,11 @@ namespace RPG.Items
             m_Modification = mod;
             m_Stat = stat;
         }
+
+        public override string ToString()
+        {
+            string output = "Target Stat: " + m_Stat + "\nModification: " + m_Modification.ToString();
+            return output;
+        }
     }
 }

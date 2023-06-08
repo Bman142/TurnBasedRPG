@@ -17,14 +17,15 @@ namespace RPG.Characters
         //Base Stats
         [SerializeField] protected int m_Initiative;
         [SerializeField] protected int m_Health;
+        [SerializeField] protected int m_MaxHealth;
         [SerializeField] protected int m_MagicPoints;
+        [SerializeField] protected int m_MaxMagicPoints;
         [SerializeField] protected int m_Defense;
         [SerializeField] protected int m_Attack;
         [SerializeField] protected string m_CharacterName;
 
         [SerializeField] protected Sprite m_Sprite;
 
-        //TODO: Integrate into targeting system
 
         [SerializeField] Weapon m_Weapon;
 
@@ -35,7 +36,9 @@ namespace RPG.Characters
         //Public getters and Setters
         public int Initiative { get { return m_Initiative; } set { m_Initiative = value; } }
         public int Health { get { return m_Health; } }
+        public int MaxHealth { get { return m_MaxHealth; } }
         public int MagicPoint { get { return m_MagicPoints; } }
+        public int MaxMagicPoint { get { return m_MaxMagicPoints; } }
         public int Defense { get { return m_Defense; } }
         public int Attack { get { return m_Attack; } }
         public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
@@ -59,6 +62,7 @@ namespace RPG.Characters
         {
             for (int i = 0; i < m_QueuedAction.StatMods.Count; i++)
             {
+                Debug.Log(m_QueuedAction.ToString());
                 m_QueuedAction.Target.TakeDamage(m_QueuedAction.StatMods[i].m_Stat, m_QueuedAction.StatMods[i].m_Modification);
             }
         }
@@ -85,7 +89,6 @@ namespace RPG.Characters
         /// </summary>
         /// <param name="target">Target of the Action</param>
 
-        //TODO: Integrate into targeting system
         public void QueueAction(Character target, List<StatMods> statMods)
         {
             m_QueuedAction.Target = target;
@@ -125,6 +128,20 @@ namespace RPG.Characters
             m_Target = target;
             m_StatMods = statMods;
         }
+        /// <summary>
+        /// Returns a Formatted Version of the Action
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string output = "Target: " + m_Target;
+            foreach(Items.StatMods statmod in m_StatMods)
+            {
+                output += "\nStatMod:\n " + statmod.ToString();
+            }
+            return output;
+        }
+        
     }
 
     

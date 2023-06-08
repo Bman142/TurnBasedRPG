@@ -500,12 +500,10 @@ MonoBehaviour:
   m_Attack: 0
   m_CharacterName: 
   m_Sprite: {fileID: 0}
-  m_Target: {fileID: 0}
-  m_Weapon: {fileID: 0}
+  m_Weapon: {fileID: 4605199864612746063, guid: c749d580074e3124ba9743a7219606ac, type: 3}
   m_QueuedAction:
     m_Target: {fileID: 0}
-    m_TargetEffect: 0
-    m_TargetMod: 0
+    m_StatMods: []
 --- !u!1 &1000013350955496
 GameObject:
   m_ObjectHideFlags: 0

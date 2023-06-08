@@ -14,12 +14,7 @@ namespace RPG
         {
             PlayerManager.Instance.CurrentScene = Scene.Battle;
             PlayerManager.Instance.StartPlayerCoroutine("UpdateHealthSliders");
-            foreach (Player player in PlayerManager.Instance.Players)
-            {
-                //player.GetComponent<SpriteRenderer>().enabled = false;
-                player.Camaera.gameObject.SetActive(false);
-
-            }
+            collision.GetComponentInChildren<Camera>().gameObject.SetActive(false);
 
             SceneManager.LoadScene(0);
         }

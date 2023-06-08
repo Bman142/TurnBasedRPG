@@ -61,5 +61,6 @@ namespace RPG.Managers
                 player.InvokeRepeating(MethodName, 0.1f,0.1f);
             }
         }
+
     }
 }

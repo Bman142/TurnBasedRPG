@@ -17,12 +17,17 @@ namespace RPG.Characters
         Camera m_Camera;
 
         public Camera Camaera { get { return m_Camera; } }
+        public TMP_Text PlayerHealthText { get { return playerHealth; } }
 
 
         private void Start()
         {
             m_Camera = this.GetComponentInChildren<Camera>();
-            Debug.Log("Player Awake");
+            if (!GetComponent<GameControls>())
+            {
+                this.gameObject.SetActive(false);
+            }
+            //Debug.Log("Player Awake", this.gameObject);
             PlayerManager.Instance.AddPlayer(this);
 
             DontDestroyOnLoad(this);
@@ -57,7 +62,9 @@ namespace RPG.Characters
                 //Battle Scene
                 playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
                 playerHealthSlider.value = m_Health;
+                playerHealthSlider.maxValue = m_MaxHealth;
                 playerMagicSlider.value = m_MagicPoints;
+                playerMagicSlider.maxValue = m_MaxMagicPoints;
             }
             else if (PlayerManager.Instance.CurrentScene == Scene.Overworld)
             {

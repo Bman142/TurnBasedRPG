@@ -5,7 +5,6 @@ using UnityEngine;
 using RPG.Characters;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine.EventSystems;
 
 namespace RPG.Managers {
@@ -50,6 +49,16 @@ namespace RPG.Managers {
 
             CalculateInitaitve();
             EstablishHealthBars();
+
+            for (int i = 0; i < m_Characters.Count; i++)
+            {
+                if (m_Characters[i] is Player)
+                {
+                    m_Characters[i].GetComponent<Player>().PlayerHealthText.color = Color.red;
+                    break;
+                }
+            }
+
             InstantiatePlayers();
             
 
@@ -71,6 +80,8 @@ namespace RPG.Managers {
         {
             m_Characters = m_Characters.OrderByDescending(x => x.Initiative).ToList();
             m_CurrentCharacter = m_Characters[0];
+
+            
         }
         /// <summary>
         /// Find All Characters in the scene
@@ -91,6 +102,7 @@ namespace RPG.Managers {
             for (int i = 0; i < m_PlayerCharacters.Count; i++)
             {
                 m_PlayerCharacters[i].transform.position = m_PlayerSpawns[i].transform.position;
+                m_PlayerCharacters[i].gameObject.SetActive(true);
             }
         }
 
@@ -131,11 +143,12 @@ namespace RPG.Managers {
         public void NextTurn()
         {
 
+
             m_Characters.Remove(m_CurrentCharacter);
             m_Characters.Add(m_CurrentCharacter);
             foreach (Character character in m_Characters)
             {
-                if (character.ValidateHealth())
+                if (!character.ValidateHealth())
                 {
                     m_Characters.Remove(character);
                 }
@@ -147,11 +160,38 @@ namespace RPG.Managers {
             foreach(Player player in m_PlayerCharacters)
             {
                 player.UpdateHealthSliders();
+                player.PlayerHealthText.color = Color.black;
             }
+
+            CheckCharacterTurn();
             
 
         }
 
+        private void CheckCharacterTurn()
+        {
+            if(m_CurrentCharacter is Player player)
+            {
+                Debug.Log("It is " + m_CurrentCharacter.Name + "'s Turn");
+                Player tmp = player;
+                tmp.PlayerHealthText.color = new Color(1f, 0f, 0f);
+            }
+            else if(m_CurrentCharacter is Enemy)
+            {
+                Character target = m_PlayerCharacters[Random.Range(0, m_PlayerCharacters.Count)];
+                Debug.Log(m_CurrentCharacter.Name + " is targeting " + target.Name);
+                m_CurrentCharacter.QueueAction(target, m_CurrentCharacter.Weapon.Modifications);
+                ExecuteCurrentTurn();
+                NextTurn();
+            }
+        }
+
+
+        /// <summary>
+        /// Sets the Current Target and Progresses the next turn
+        /// </summary>
+        /// <param name="TargetName">Target Name (As in the Character.cs)</param>
+        // TODO: Confirm if Creating Recursion Loop
         public void SetCurrentTarget(string TargetName)
         {
             //Debug.LogError("");
@@ -165,6 +205,9 @@ namespace RPG.Managers {
             }
             TemporaryButtons = new();
             FindObjectOfType<EventSystem>().SetSelectedGameObject(TopOfMenu.gameObject);
+            ExecuteCurrentTurn();
+            NextTurn();
+            
         }
 
 
@@ -176,7 +219,7 @@ namespace RPG.Managers {
             m_CurrentCharacter.ExecuteAction();
         }
 
-        public void Attacking()
+        public void AttackButton()
         {
             for (int i = 0; i < m_EnemyCharacters.Count; i++)
             {
