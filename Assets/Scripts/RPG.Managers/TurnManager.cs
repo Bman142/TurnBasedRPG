@@ -6,6 +6,7 @@ using RPG.Characters;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
@@ -22,7 +23,7 @@ namespace RPG.Managers {
 
 
         [SerializeField] GameObject m_PlayerHealthPrefab;
-        [SerializeField] GameObject m_EnemyPrefab;
+        [SerializeField] List<GameObject> m_EnemyPrefabs;
         [SerializeField] Button m_ButtonPrefab;
 
         //Item Instanstiation Location Lists
@@ -31,6 +32,7 @@ namespace RPG.Managers {
         [SerializeField] List<RectTransform> m_AttackLocations;
         [SerializeField] List<Transform> m_PlayerSpawns;
         [SerializeField] List<Transform> m_EnemySpawns;
+        [SerializeField] Transform m_MagicButton;
 
         public List<Character> PlayerCharacters { get { return m_PlayerCharacters; } }
         public List<Character> EnemyCharacters { get { return m_EnemyCharacters; } }
@@ -48,7 +50,7 @@ namespace RPG.Managers {
             m_Characters.AddRange(m_EnemyCharacters);
 
             CalculateInitaitve();
-            EstablishHealthBars();
+            InitHealthBars();
 
             for (int i = 0; i < m_Characters.Count; i++)
             {
@@ -60,11 +62,14 @@ namespace RPG.Managers {
             }
 
             InstantiatePlayers();
+            InstantiateMagicButton();
             
 
         }
-
-        void EstablishHealthBars()
+        /// <summary>
+        /// Initalises Player Health Bars in the GUI
+        /// </summary>
+        void InitHealthBars()
         {
             for (int i = 0; i < m_PlayerCharacters.Count; i++)
             {
@@ -84,7 +89,7 @@ namespace RPG.Managers {
             
         }
         /// <summary>
-        /// Find All Characters in the scene
+        /// Import Players from the player manager
         /// </summary>
         public void GetPlayers()
         {
@@ -92,11 +97,10 @@ namespace RPG.Managers {
 
         }
 
-        public void GetEnemies()
-        {
-            m_EnemyCharacters.AddRange(FindObjectsOfType<Enemy>().ToList<Enemy>());
-        }
-
+       
+        /// <summary>
+        /// Move Player Icons into approprate positions and set them to active
+        /// </summary>
         public void InstantiatePlayers()
         {
             for (int i = 0; i < m_PlayerCharacters.Count; i++)
@@ -105,12 +109,15 @@ namespace RPG.Managers {
                 m_PlayerCharacters[i].gameObject.SetActive(true);
             }
         }
-
+        /// <summary>
+        /// Create Enemies based off a random predefined prefab in the available list
+        /// </summary>
+        
         public void InstansiateEnemies()
         {
             for (int i = 0; i <= 3; i++)
             {
-                GameObject NewEnemy = Instantiate(m_EnemyPrefab, m_EnemySpawns[i]);
+                GameObject NewEnemy = Instantiate(m_EnemyPrefabs[UnityEngine.Random.Range(0,m_EnemyPrefabs.Count)], m_EnemySpawns[i]);
                 m_EnemyCharacters.Add(NewEnemy.GetComponent<Enemy>());
                 NewEnemy.GetComponent<Enemy>().Name = "Enemy " + (i + 1).ToString();
             }
@@ -128,13 +135,14 @@ namespace RPG.Managers {
             m_CurrentCharacter = null;
         }
         /// <summary>
-        /// Randomise the Initative of the charcters in the Character List
+        /// Randomise the Initative of the charcters in the Character List (Deprecated)
         /// </summary>
+        [Obsolete("No Longer Used, initative should be defined per character")]
         public void RandomInit()
         {
             foreach (Character character in m_Characters)
             {
-                character.Initiative = Random.Range(0, 10);
+                character.Initiative = UnityEngine.Random.Range(0, 10);
             }
         }
         /// <summary>
@@ -143,21 +151,33 @@ namespace RPG.Managers {
         public void NextTurn()
         {
 
-
+            List<Character> ToBeRemoved = new();
             m_Characters.Remove(m_CurrentCharacter);
             m_Characters.Add(m_CurrentCharacter);
             foreach (Character character in m_Characters)
             {
                 if (!character.ValidateHealth())
                 {
-                    m_Characters.Remove(character);
+                    ToBeRemoved.Add(character);
+                    if(character is Player)
+                    {
+                        m_PlayerCharacters.Remove(character);
+                    }
+                    else if(character is Enemy)
+                    {
+                        m_EnemyCharacters.Remove(character);
+                    }
                 }
+            }
+            foreach(Character character in ToBeRemoved)
+            {
+                m_Characters.Remove(character);
             }
             m_CurrentCharacter = m_Characters[0];
 
             
 
-            foreach(Player player in m_PlayerCharacters)
+            foreach(Player player in m_PlayerCharacters.Cast<Player>())
             {
                 player.UpdateHealthSliders();
                 player.PlayerHealthText.color = Color.black;
@@ -168,6 +188,17 @@ namespace RPG.Managers {
 
         }
 
+        void InstantiateMagicButton()
+        {
+            if(m_CurrentCharacter is Player player && player.MaxMagicPoint != 0)
+            {
+                GameObject NewButton = Instantiate(m_ButtonPrefab.gameObject, m_MagicButton);
+                NewButton.name = "Magic Button";
+                NewButton.GetComponentInChildren<TMP_Text>().text = "Magic";
+                NewButton.GetComponent<Button>().onClick.AddListener(delegate { SpellSelector(); });
+            }
+        }
+
         private void CheckCharacterTurn()
         {
             if(m_CurrentCharacter is Player player)
@@ -175,10 +206,17 @@ namespace RPG.Managers {
                 Debug.Log("It is " + m_CurrentCharacter.Name + "'s Turn");
                 Player tmp = player;
                 tmp.PlayerHealthText.color = new Color(1f, 0f, 0f);
+                //If the character is capable of using magic, create a new targeting button to allow them to.
+                if(tmp.MaxMagicPoint != 0)
+                {
+                    //Create Magic button
+                    InstantiateMagicButton();
+                    
+                }
             }
             else if(m_CurrentCharacter is Enemy)
             {
-                Character target = m_PlayerCharacters[Random.Range(0, m_PlayerCharacters.Count)];
+                Character target = m_PlayerCharacters[UnityEngine.Random.Range(0, m_PlayerCharacters.Count)];
                 Debug.Log(m_CurrentCharacter.Name + " is targeting " + target.Name);
                 m_CurrentCharacter.QueueAction(target, m_CurrentCharacter.Weapon.Modifications);
                 ExecuteCurrentTurn();
@@ -186,12 +224,47 @@ namespace RPG.Managers {
             }
         }
 
+        /// <summary>
+        /// Instantiate Buttons to Select Spell 
+        /// </summary>
+        public void SpellSelector()
+        {
+            for(int i = 0; i < m_CurrentCharacter.Spells.Count; i++)
+            {
+                GameObject NewButton = Instantiate(m_ButtonPrefab.gameObject, m_AttackLocations[i]);
+                NewButton.name = i.ToString();
+                NewButton.GetComponentInChildren<TMP_Text>().text = m_CurrentCharacter.Spells[i].name;
+                NewButton.GetComponent<Button>().onClick.AddListener(delegate { SpellTargeting(int.Parse(NewButton.name)); });
+                TemporaryButtons.Add(NewButton);
+            }
+        }
+        /// <summary>
+        /// Instantiate Buttons to target a spell at enemies
+        /// </summary>
+        /// <param name="SpellIndex">Index of the Spell in Character Spell List</param>
+        public void SpellTargeting(int SpellIndex)
+        {
+            foreach(GameObject obj in TemporaryButtons)
+            {
+                Destroy(obj);
+            }
+
+
+            for (int i = 0; i < m_EnemyCharacters.Count; i++)
+            {
+                GameObject NewButton = Instantiate(m_ButtonPrefab.gameObject, m_AttackLocations[i]);
+                NewButton.name = m_EnemyCharacters[i].Name;
+                NewButton.GetComponentInChildren<TMP_Text>().text = m_EnemyCharacters[i].Name;
+                NewButton.GetComponent<Button>().onClick.AddListener(delegate { SetCurrentTargetMagic(NewButton.name, SpellIndex); });
+                TemporaryButtons.Add(NewButton);
+            }
+            FindObjectOfType<EventSystem>().SetSelectedGameObject(TemporaryButtons[1]);
+        }
 
         /// <summary>
         /// Sets the Current Target and Progresses the next turn
         /// </summary>
         /// <param name="TargetName">Target Name (As in the Character.cs)</param>
-        // TODO: Confirm if Creating Recursion Loop
         public void SetCurrentTarget(string TargetName)
         {
             //Debug.LogError("");
@@ -203,6 +276,30 @@ namespace RPG.Managers {
             {
                 Destroy(item);
             }
+            TemporaryButtons = new();
+            FindObjectOfType<EventSystem>().SetSelectedGameObject(TopOfMenu.gameObject);
+            ExecuteCurrentTurn();
+            NextTurn();
+            
+        }
+        /// <summary>
+        /// Targeting System for Magic
+        /// </summary>
+        /// <param name="TargetName">Name (As in Character.cs) to target</param>
+        /// <param name="SpellIndex">Index of the Spell in Character Spell List</param>
+        public void SetCurrentTargetMagic(string TargetName, int SpellIndex)
+        {
+            //Debug.LogError("");
+            //Debug.Log("Button " + this.name + " Pressed, Target Number " + TargetName.ToString());
+            Character Target = m_Characters.Find(x => x.Name == TargetName);
+            Debug.Log("Target Set: " + Target.Name);
+            m_CurrentCharacter.QueueAction(Target, m_CurrentCharacter.Spells[SpellIndex].Modifications);
+            m_CurrentCharacter.TakeDamage(Stats.Magic, m_CurrentCharacter.Spells[SpellIndex].SpellCost);
+            foreach(GameObject item in TemporaryButtons)
+            {
+                Destroy(item);
+            }
+            Destroy(GameObject.Find("Magic Button"));
             TemporaryButtons = new();
             FindObjectOfType<EventSystem>().SetSelectedGameObject(TopOfMenu.gameObject);
             ExecuteCurrentTurn();

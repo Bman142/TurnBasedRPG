@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using RPG.Items;
 using System.Xml.Schema;
 using Unity.VisualScripting;
+using UnityEngine.TextCore.Text;
 
 namespace RPG.Characters
 {
@@ -24,10 +25,13 @@ namespace RPG.Characters
         [SerializeField] protected int m_Attack;
         [SerializeField] protected string m_CharacterName;
 
+
         [SerializeField] protected Sprite m_Sprite;
 
 
         [SerializeField] Weapon m_Weapon;
+
+        [SerializeField] protected List<Spell> m_Spells;
 
         [SerializeField] Action m_QueuedAction;
 
@@ -44,6 +48,7 @@ namespace RPG.Characters
         public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
         public Weapon Weapon { get => m_Weapon; set => m_Weapon = value; }
         public Sprite Sprite { get => m_Sprite; }
+        public List<Spell> Spells { get => m_Spells; }
         
         public Character ReturnCharacter()
         {
@@ -81,6 +86,9 @@ namespace RPG.Characters
                 case Stats.Health:
                     m_Health -= mod;
                     break;
+                case Stats.Magic:
+                    m_MagicPoints -= mod;
+                    break;
             }
         }
 
@@ -100,7 +108,8 @@ namespace RPG.Characters
             if(m_Health == 0)
             {
                 //Kill Character
-                this.GetComponent<SpriteRenderer>().enabled = false;
+
+                this.gameObject.SetActive(false);
                 return false;
             }
             else

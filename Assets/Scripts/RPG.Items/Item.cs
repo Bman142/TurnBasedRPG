@@ -10,13 +10,13 @@ namespace RPG.Items
     
     public class Item : MonoBehaviour
     {
-        [SerializeField] string m_ItemName;
-        [SerializeField] List<StatMods> m_Modifications;
-        [SerializeField] GameObject m_Prefab;
+        [SerializeField] protected string m_ItemName;
+        [SerializeField] protected List<StatMods> m_Modifications;
+        [SerializeField] protected GameObject m_Prefab;
 
-        [SerializeField] TMP_Text m_NameTextBox;
+        [SerializeField] protected TMP_Text m_NameTextBox;
 
-        [SerializeField, Multiline] string m_Description;
+        [SerializeField, Multiline] protected string m_Description;
         
         public string Name { get { return m_ItemName; } }
         public List<StatMods> Modifications { get { return m_Modifications; } }

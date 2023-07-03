@@ -40,6 +40,11 @@ namespace RPG.Characters
             {
                 if(slid.name == "PlayerMagicSlider")
                 {
+                    if(m_MaxMagicPoints == 0)
+                    {
+                        Destroy(slid.gameObject);
+                        break;
+                    }
                     playerMagicSlider = slid;
                 }
                 else if(slid.name == "PlayerHealthSlider")
@@ -63,8 +68,11 @@ namespace RPG.Characters
                 playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
                 playerHealthSlider.value = m_Health;
                 playerHealthSlider.maxValue = m_MaxHealth;
-                playerMagicSlider.value = m_MagicPoints;
-                playerMagicSlider.maxValue = m_MaxMagicPoints;
+                if (m_MaxMagicPoints != 0)
+                {
+                    playerMagicSlider.value = m_MagicPoints;
+                    playerMagicSlider.maxValue = m_MaxMagicPoints;
+                }
             }
             else if (PlayerManager.Instance.CurrentScene == Scene.Overworld)
             {
