@@ -16,7 +16,7 @@ namespace RPG.Characters
 
         Camera m_Camera;
 
-        public Camera Camaera { get { return m_Camera; } }
+        public Camera Camera { get { return m_Camera; } }
         public TMP_Text PlayerHealthText { get { return playerHealth; } }
 
 
@@ -26,6 +26,10 @@ namespace RPG.Characters
             if (!GetComponent<GameControls>())
             {
                 this.gameObject.SetActive(false);
+            }
+            else
+            {
+                PlayerManager.Instance.OverworldPlayer = this;
             }
             //Debug.Log("Player Awake", this.gameObject);
             PlayerManager.Instance.AddPlayer(this);

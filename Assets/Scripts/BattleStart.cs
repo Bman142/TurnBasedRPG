@@ -12,11 +12,9 @@ namespace RPG
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            PlayerManager.Instance.CurrentScene = Scene.Battle;
-            PlayerManager.Instance.StartPlayerCoroutine("UpdateHealthSliders");
             collision.GetComponentInChildren<Camera>().gameObject.SetActive(false);
 
-            SceneManager.LoadScene(0);
+            PlayerManager.Instance.LoadScene(0, Scene.Battle);
         }
     }
 }

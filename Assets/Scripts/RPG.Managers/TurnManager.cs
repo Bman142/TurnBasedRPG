@@ -169,6 +169,22 @@ namespace RPG.Managers {
                     }
                 }
             }
+            if (!m_EnemyCharacters.Any())
+            {
+                foreach(Player player in m_PlayerCharacters)
+                {
+                    if (!player.GetComponent<GameControls>())
+                    {
+                        player.gameObject.SetActive(false);
+                        continue;
+                    }
+                    else
+                    {
+                        player.Camera.gameObject.SetActive(true);
+                    }
+                }
+                PlayerManager.Instance.LoadScene(1, Scene.Overworld);
+            }
             foreach(Character character in ToBeRemoved)
             {
                 m_Characters.Remove(character);
@@ -199,6 +215,8 @@ namespace RPG.Managers {
             }
         }
 
+
+        //TODO: Fix Recursion
         private void CheckCharacterTurn()
         {
             if(m_CurrentCharacter is Player player)
