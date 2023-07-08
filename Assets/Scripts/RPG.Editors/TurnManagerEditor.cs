@@ -29,7 +29,9 @@ namespace RPG.Editors
             }
             else if (GUILayout.Button("Randomise Init"))
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 turnManager.RandomInit();
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             else if(GUILayout.Button("Next Turn"))
             {

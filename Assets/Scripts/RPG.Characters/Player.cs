@@ -10,6 +10,7 @@ namespace RPG.Characters
 {
     public class Player : Character
     {
+        [Header("Player Specific Fields")]
         [SerializeField] TMP_Text playerHealth;
         [SerializeField] Slider playerHealthSlider;
         Slider playerMagicSlider;

@@ -79,7 +79,7 @@ namespace RPG
             }
             else
             {
-                PlayerManager.Instance.GetComponent<InventoryManager>().ListItems();
+                PlayerManager.Instance.GetComponent<InventoryManager>().OpenInventory();
             }
 
             inventoryOpen = !inventoryOpen;

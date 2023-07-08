@@ -30,7 +30,7 @@ namespace RPG.Managers
         public static PlayerManager Instance { get { return m_Instance; } }
         public List<Item> Inventroy { get { return m_Inventory; } }
         public List<Player> Players { get { return m_Players; } }
-        public Player OverworldPlayer { set { m_OverworldPlayer = value; } }
+        public Player OverworldPlayer { set { m_OverworldPlayer = value; } get => m_OverworldPlayer; }
        
         public void AddToInventory(Item item)
         {

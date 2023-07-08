@@ -6,7 +6,6 @@ using RPG.Characters;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using System;
 
 namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
@@ -32,8 +31,10 @@ namespace RPG.Managers {
         [SerializeField] List<RectTransform> m_AttackLocations;
         [SerializeField] List<Transform> m_PlayerSpawns;
         [SerializeField] List<Transform> m_EnemySpawns;
-        [SerializeField] Transform m_MagicButton;
+        [SerializeField] Transform m_MagicButtonLocation;
 
+
+        GameObject m_MagicButtonObject;
         public List<Character> PlayerCharacters { get { return m_PlayerCharacters; } }
         public List<Character> EnemyCharacters { get { return m_EnemyCharacters; } }
 
@@ -137,7 +138,7 @@ namespace RPG.Managers {
         /// <summary>
         /// Randomise the Initative of the charcters in the Character List (Deprecated)
         /// </summary>
-        [Obsolete("No Longer Used, initative should be defined per character")]
+        [System.Obsolete("No Longer Used, initative should be defined per character")]
         public void RandomInit()
         {
             foreach (Character character in m_Characters)
@@ -171,7 +172,7 @@ namespace RPG.Managers {
             }
             if (!m_EnemyCharacters.Any())
             {
-                foreach(Player player in m_PlayerCharacters)
+                foreach(Player player in m_PlayerCharacters.Cast<Player>())
                 {
                     if (!player.GetComponent<GameControls>())
                     {
@@ -208,10 +209,10 @@ namespace RPG.Managers {
         {
             if(m_CurrentCharacter is Player player && player.MaxMagicPoint != 0)
             {
-                GameObject NewButton = Instantiate(m_ButtonPrefab.gameObject, m_MagicButton);
-                NewButton.name = "Magic Button";
-                NewButton.GetComponentInChildren<TMP_Text>().text = "Magic";
-                NewButton.GetComponent<Button>().onClick.AddListener(delegate { SpellSelector(); });
+                m_MagicButtonObject = Instantiate(m_ButtonPrefab.gameObject, m_MagicButtonLocation);
+                m_MagicButtonObject.name = "Magic Button";
+                m_MagicButtonObject.GetComponentInChildren<TMP_Text>().text = "Magic";
+                m_MagicButtonObject.GetComponent<Button>().onClick.AddListener(delegate { SpellSelector(); });
             }
         }
 
@@ -228,9 +229,18 @@ namespace RPG.Managers {
                 if(tmp.MaxMagicPoint != 0)
                 {
                     //Create Magic button
-                    InstantiateMagicButton();
+                    
+                    if(m_MagicButtonObject == null)
+                    {
+                        InstantiateMagicButton();
+                    }
                     
                 }
+                else if(tmp.MaxMagicPoint == 0 && m_MagicButtonObject != null)
+                {
+                    Destroy(m_MagicButtonObject);
+                }
+
             }
             else if(m_CurrentCharacter is Enemy)
             {

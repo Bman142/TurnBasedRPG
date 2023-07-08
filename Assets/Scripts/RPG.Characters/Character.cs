@@ -5,47 +5,63 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using RPG.Items;
-using System.Xml.Schema;
-using Unity.VisualScripting;
-using UnityEngine.TextCore.Text;
 
 namespace RPG.Characters
 {
     
     public class Character : MonoBehaviour
     {
-
+        #region Variables
         //Base Stats
-        [SerializeField] protected int m_Initiative;
+        [SerializeField] protected string m_CharacterName;
+
+        [Header("Base Stats")]
         [SerializeField] protected int m_Health;
         [SerializeField] protected int m_MaxHealth;
         [SerializeField] protected int m_MagicPoints;
         [SerializeField] protected int m_MaxMagicPoints;
+        [Header("Complimenting Stats")]
         [SerializeField] protected int m_Defense;
-        [SerializeField] protected int m_Attack;
-        [SerializeField] protected string m_CharacterName;
+        [SerializeField] protected int m_Accuracy;
+        [SerializeField] protected int m_Evasion;
+        [Header("Modifier Stats")]
+        [SerializeField] protected int m_Dexterity;
+        [SerializeField] protected int m_Strength;
+        [Header("Inheritated Stats")]
+        [SerializeField] protected int m_Initiative;
 
-
+        [Space]
         [SerializeField] protected Sprite m_Sprite;
 
-
+        [Header("Items and Spells")]
         [SerializeField] Weapon m_Weapon;
 
         [SerializeField] protected List<Spell> m_Spells;
+        [Header("Actions")]
 
         [SerializeField] Action m_QueuedAction;
 
-        
-
+        #endregion
+        #region Getters and Setters
         //Public getters and Setters
-        public int Initiative { get { return m_Initiative; } set { m_Initiative = value; } }
+
+        public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
+        //Base Stats
         public int Health { get { return m_Health; } }
         public int MaxHealth { get { return m_MaxHealth; } }
         public int MagicPoint { get { return m_MagicPoints; } }
         public int MaxMagicPoint { get { return m_MaxMagicPoints; } }
+        //Complimenting Stats    
+        
         public int Defense { get { return m_Defense; } }
-        public int Attack { get { return m_Attack; } }
-        public string Name { get { return m_CharacterName; } set { m_CharacterName = value; } }
+        public int Accuracy { get => m_Accuracy; }
+        public int Evasion { get => m_Evasion; }
+
+        //Modifier Stats
+        public int Dexterity { get => m_Dexterity; }
+        public int Strength { get => m_Strength; }
+
+        public int Initiative { get { return m_Initiative; } set { m_Initiative = value; } }
         public Weapon Weapon { get => m_Weapon; set => m_Weapon = value; }
         public Sprite Sprite { get => m_Sprite; }
         public List<Spell> Spells { get => m_Spells; }
@@ -54,7 +70,7 @@ namespace RPG.Characters
         {
             return this;
         }
-
+        #endregion
         private void Start()
         {
             if (this.GetComponent<SpriteRenderer>())
@@ -89,6 +105,9 @@ namespace RPG.Characters
                 case Stats.Magic:
                     m_MagicPoints -= mod;
                     break;
+                case Stats.Defense:
+                    m_Defense -= mod;
+                    break;
             }
         }
 
@@ -121,7 +140,7 @@ namespace RPG.Characters
 
     }
     /// <summary>
-    /// Class to contain all information for an action
+    /// Struct to contain all information for an action
     /// </summary>
     [Serializable]
     public struct Action
@@ -129,8 +148,8 @@ namespace RPG.Characters
         [SerializeField] Character m_Target;
         [SerializeField] List<StatMods> m_StatMods;
 
-        public Character Target { get { return m_Target; } set { m_Target = value; } }
-        public List<StatMods> StatMods { get => m_StatMods; set => m_StatMods = value; }
+        public Character Target { get => m_Target; set { m_Target = value; } }
+        public List<StatMods> StatMods { get { return m_StatMods; } set => m_StatMods = value; }
 
         public Action(Character target, List<StatMods> statMods)
         {
@@ -144,7 +163,7 @@ namespace RPG.Characters
         public override string ToString()
         {
             string output = "Target: " + m_Target;
-            foreach(Items.StatMods statmod in m_StatMods)
+            foreach(StatMods statmod in m_StatMods)
             {
                 output += "\nStatMod:\n " + statmod.ToString();
             }

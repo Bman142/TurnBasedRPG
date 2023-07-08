@@ -237,11 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fefe53554011e2a4fbbd419a69b80b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventorySlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  InventorySlots: []
+  StatPanel: {fileID: 0}
 --- !u!114 &1055144298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,14 +307,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff5cd44e4064914ba1c1b0dce20bad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Initiative: 7
+  m_CharacterName: Shag
   m_Health: 10
   m_MaxHealth: 10
   m_MagicPoints: 10
   m_MaxMagicPoints: 10
   m_Defense: 0
-  m_Attack: 0
-  m_CharacterName: Shag
+  m_Accuracy: 0
+  m_Evasion: 0
+  m_Dexterity: 0
+  m_Strength: 0
+  m_Initiative: 7
   m_Sprite: {fileID: 21300000, guid: ec47f75fe8aff1644ac73998f4ad31b5, type: 3}
   m_Weapon: {fileID: 4605199864612746063, guid: c749d580074e3124ba9743a7219606ac, type: 3}
   m_Spells:
@@ -511,14 +511,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff5cd44e4064914ba1c1b0dce20bad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Initiative: 3
+  m_CharacterName: Vito
   m_Health: 20
   m_MaxHealth: 20
   m_MagicPoints: 0
   m_MaxMagicPoints: 0
   m_Defense: 0
-  m_Attack: 0
-  m_CharacterName: Vito
+  m_Accuracy: 0
+  m_Evasion: 0
+  m_Dexterity: 0
+  m_Strength: 0
+  m_Initiative: 3
   m_Sprite: {fileID: 21300000, guid: ec47f75fe8aff1644ac73998f4ad31b5, type: 3}
   m_Weapon: {fileID: 4605199864612746063, guid: c749d580074e3124ba9743a7219606ac, type: 3}
   m_Spells: []
