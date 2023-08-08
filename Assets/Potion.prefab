@@ -91,13 +91,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6c0b819daff1c468b554a35821ed56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Mana Potion
+  m_ItemName:
+    mTerm: Items/Potion/ManaPotion
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   m_Modifications:
   - m_Stat: 2
     m_Modification: 5
   m_Prefab: {fileID: 4618555874711391440}
   m_NameTextBox: {fileID: 1017339473175785236}
-  m_Description: 
+  m_Description:
+    mTerm: Description/Item/Potion/ManaPotion
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
 --- !u!114 &2021819550385274792
 MonoBehaviour:
   m_ObjectHideFlags: 0

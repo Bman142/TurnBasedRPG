@@ -53,13 +53,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab29ca56d09f6e4697f1440cb299993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemName: Sword
+  m_ItemName:
+    mTerm: Items/Weapon/IronSword
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   m_Modifications:
   - m_Stat: 0
     m_Modification: 1
   m_Prefab: {fileID: 4605199864612746062}
   m_NameTextBox: {fileID: 1614220266234301204}
-  m_Description: 
+  m_Description:
+    mTerm: Description/Item/Weapon/IronSword
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  m_Attack: 0
 --- !u!222 &8420707474225436176
 CanvasRenderer:
   m_ObjectHideFlags: 0

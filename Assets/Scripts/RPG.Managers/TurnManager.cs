@@ -6,6 +6,7 @@ using RPG.Characters;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using I2.Loc;
 
 namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
@@ -33,6 +34,8 @@ namespace RPG.Managers {
         [SerializeField] List<Transform> m_EnemySpawns;
         [SerializeField] Transform m_MagicButtonLocation;
 
+        bool CombatOngoing = true;
+        bool isPlayerTurn = false;
 
         GameObject m_MagicButtonObject;
         public List<Character> PlayerCharacters { get { return m_PlayerCharacters; } }
@@ -65,8 +68,13 @@ namespace RPG.Managers {
             InstantiatePlayers();
             InstantiateMagicButton();
             
+            
+           
 
         }
+       
+
+        
         /// <summary>
         /// Initalises Player Health Bars in the GUI
         /// </summary>
@@ -120,7 +128,7 @@ namespace RPG.Managers {
             {
                 GameObject NewEnemy = Instantiate(m_EnemyPrefabs[UnityEngine.Random.Range(0,m_EnemyPrefabs.Count)], m_EnemySpawns[i]);
                 m_EnemyCharacters.Add(NewEnemy.GetComponent<Enemy>());
-                NewEnemy.GetComponent<Enemy>().Name = "Enemy " + (i + 1).ToString();
+                NewEnemy.GetComponent<Enemy>().Name += (i + 1).ToString();
             }
 
         }
@@ -172,6 +180,7 @@ namespace RPG.Managers {
             }
             if (!m_EnemyCharacters.Any())
             {
+                CombatOngoing = false;
                 foreach(Player player in m_PlayerCharacters.Cast<Player>())
                 {
                     if (!player.GetComponent<GameControls>())
@@ -201,23 +210,24 @@ namespace RPG.Managers {
             }
 
             CheckCharacterTurn();
-            
 
         }
 
         void InstantiateMagicButton()
         {
-            if(m_CurrentCharacter is Player player && player.MaxMagicPoint != 0)
+            if((m_CurrentCharacter is Player) && (m_CurrentCharacter.MaxMagicPoint > 0) && (m_CurrentCharacter.MagicPoint > 0))
             {
                 m_MagicButtonObject = Instantiate(m_ButtonPrefab.gameObject, m_MagicButtonLocation);
                 m_MagicButtonObject.name = "Magic Button";
-                m_MagicButtonObject.GetComponentInChildren<TMP_Text>().text = "Magic";
+                m_MagicButtonObject.GetComponentInChildren<TMP_Text>().text = LocalizationManager.GetTranslation("Menu/Magic");
                 m_MagicButtonObject.GetComponent<Button>().onClick.AddListener(delegate { SpellSelector(); });
             }
         }
 
 
-        //TODO: Fix Recursion
+        // TODO: Fix Recursion
+        // Check Turn Calls Next Turn which calles check turn
+        // Need to be able to stop ticking through when is player turn
         private void CheckCharacterTurn()
         {
             if(m_CurrentCharacter is Player player)

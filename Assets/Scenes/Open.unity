@@ -307,7 +307,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff5cd44e4064914ba1c1b0dce20bad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterName: Shag
+  m_CharacterName:
+    mTerm: Characters/MC/Shag
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   m_Health: 10
   m_MaxHealth: 10
   m_MagicPoints: 10
@@ -511,7 +516,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff5cd44e4064914ba1c1b0dce20bad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterName: Vito
+  m_CharacterName:
+    mTerm: Characters/MC/Vito
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   m_Health: 20
   m_MaxHealth: 20
   m_MagicPoints: 0

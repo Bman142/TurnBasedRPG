@@ -40,6 +40,7 @@ namespace RPG.Characters
         public void SetTextAndSlider(GameObject obj)
         {
             playerHealth = obj.GetComponentInChildren<TMP_Text>();
+            playerHealth.text = m_CharacterName.ToString() + ":" + m_Health.ToString();
             List<Slider> sliders = obj.GetComponentsInChildren<Slider>().ToList();
             foreach(Slider slid in sliders)
             {
@@ -70,7 +71,7 @@ namespace RPG.Characters
             if (PlayerManager.Instance.CurrentScene == Scene.Battle)
             {
                 //Battle Scene
-                playerHealth.text = m_CharacterName + ": " + m_Health.ToString();
+                playerHealth.text = m_CharacterName.ToString() + ": " + m_Health.ToString();
                 playerHealthSlider.value = m_Health;
                 playerHealthSlider.maxValue = m_MaxHealth;
                 if (m_MaxMagicPoints != 0)
