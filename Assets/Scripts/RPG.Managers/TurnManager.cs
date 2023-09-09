@@ -226,7 +226,7 @@ namespace RPG.Managers {
 
 
         // TODO: Fix Recursion
-        // Check Turn Calls Next Turn which calles check turn
+        // Check Turn Calls Next Turn which calls check turn
         // Need to be able to stop ticking through when is player turn
         private void CheckCharacterTurn()
         {
