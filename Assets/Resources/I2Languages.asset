@@ -52,6 +52,20 @@ MonoBehaviour:
       - Compatibility
       Flags: 00
       Languages_Touch: []
+    - Term: Title/Title
+      TermType: 0
+      Description: 
+      Languages:
+      - Steamwork SCP
+      Flags: 00
+      Languages_Touch: []
+    - Term: Start
+      TermType: 0
+      Description: 
+      Languages:
+      - Start
+      Flags: 00
+      Languages_Touch: []
     - Term: Characters/MC/Shag
       TermType: 0
       Description: 
@@ -66,11 +80,18 @@ MonoBehaviour:
       - Vito
       Flags: 00
       Languages_Touch: []
-    - Term: Characters/Enemy/Club
+    - Term: Characters/Enemy/Knight
       TermType: 0
       Description: 
       Languages:
-      - Club
+      - Knight
+      Flags: 00
+      Languages_Touch: []
+    - Term: Characters/Enemy/Merchant
+      TermType: 0
+      Description: 
+      Languages:
+      - Merchant
       Flags: 00
       Languages_Touch: []
     - Term: Items/Weapon/IronSword
@@ -120,7 +141,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbyfeLDEXjNc2uLdE7ZQ5aFoNrZLOwKeCpyax8ntTENjtJOdPes7x71epPaIcxCw1UvspA/exec
     Google_SpreadsheetKey: 15iimTo1CL9SsFK2xH1HPZlM0cCij6GImrDNPorMrADI
     Google_SpreadsheetName: I2Loc TurnBasedRPG Localization
-    Google_LastUpdatedVersion: 1691495730994
+    Google_LastUpdatedVersion: 1694936064338
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
