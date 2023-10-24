@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using RPG.Items;
-using I2.Loc;
 
 namespace RPG.Characters
 {
@@ -14,7 +13,7 @@ namespace RPG.Characters
     {
         #region Variables
         //Base Stats
-        [SerializeField] protected LocalizedString m_CharacterName;
+        [SerializeField] protected string m_CharacterName;
 
         [Header("Base Stats")]
         [SerializeField] protected int m_Health;

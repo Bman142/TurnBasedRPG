@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using I2.Loc;
 namespace RPG.Items
 {
     
     public class Item : MonoBehaviour
     {
-        [SerializeField] protected LocalizedString m_ItemName;
+        [SerializeField] protected string m_ItemName;
         [SerializeField] protected List<StatMods> m_Modifications;
         [SerializeField] protected GameObject m_Prefab;
 
         [SerializeField] protected TMP_Text m_NameTextBox;
 
-        [SerializeField] protected LocalizedString m_Description;
+        [SerializeField] protected string m_Description;
         
         public string Name { get { return m_ItemName; } }
         public List<StatMods> Modifications { get { return m_Modifications; } }

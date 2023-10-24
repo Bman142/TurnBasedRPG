@@ -6,7 +6,6 @@ using RPG.Characters;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using I2.Loc;
 
 namespace RPG.Managers {
     public class TurnManager : MonoBehaviour
@@ -219,7 +218,7 @@ namespace RPG.Managers {
             {
                 m_MagicButtonObject = Instantiate(m_ButtonPrefab.gameObject, m_MagicButtonLocation);
                 m_MagicButtonObject.name = "Magic Button";
-                m_MagicButtonObject.GetComponentInChildren<TMP_Text>().text = LocalizationManager.GetTranslation("Menu/Magic");
+                m_MagicButtonObject.GetComponentInChildren<TMP_Text>().text = "Magic";
                 m_MagicButtonObject.GetComponent<Button>().onClick.AddListener(delegate { SpellSelector(); });
             }
         }

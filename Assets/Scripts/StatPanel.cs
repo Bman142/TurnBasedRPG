@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using I2.Loc;
 namespace RPG
 {
 
@@ -13,9 +12,9 @@ namespace RPG
         private void OnEnable()
         {
             Player = Managers.PlayerManager.Instance.OverworldPlayer;
-            Name.text = LocalizationManager.GetTranslation("Menu/Name") + " : " + Player.Name;
-            Health.text = LocalizationManager.GetTranslation("Menu/Health") + " : " + Player.Health + " / " + Player.MaxHealth;
-            Compat.text = LocalizationManager.GetTranslation("Menu/Compatibility") + " : " + Player.MagicPoint + " / " + Player.MaxMagicPoint;
+            Name.text = "Name : " + Player.Name;
+            Health.text = "HP : " + Player.Health + " / " + Player.MaxHealth;
+            Compat.text = "Compat : " + Player.MagicPoint + " / " + Player.MaxMagicPoint;
             DEF.text = "DEF: " + Player.Defense;
             ACC.text = "ACC: " + Player.Accuracy;
             EVA.text = "EVA: " + Player.Evasion;
