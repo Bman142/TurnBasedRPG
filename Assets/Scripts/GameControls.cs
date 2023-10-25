@@ -18,6 +18,8 @@ namespace RPG
 
         bool inventoryOpen = false;
 
+        public bool InventoryOpen { get => inventoryOpen; set { inventoryOpen = value; } }
+
         private void Awake()
         {
             inputActions = new Controls();
